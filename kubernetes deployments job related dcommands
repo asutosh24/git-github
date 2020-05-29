@@ -1,0 +1,87 @@
+#deployments
+#######################################
+create a manifest file with Kind ReplicaSet & use kubectl to create the object in k8s API Server.
+
+kubectl create -f deployment-ex1.yml --record      # create deployment
+kubectl apply -f deployment-ex1.yml  --record      # update the deployment 
+
+kubectl get deploy                              # List all deployments in current active namespace
+kubectl get deploy -n <namespace>               # List the deployments in <namespace>
+kubectl get deploy --show-labels                # list the labels for deploy
+kubectl get deploy -l deploy=myapprs -o wide    # list deployments with matching labels
+kubectl get pods | grep mydeploy                # list the pods associated with deployment
+kubectl get deploy mydeploy -o yaml             # detailed object config
+
+kubectl describe deploy <deployment>                # inspect the deployment
+kubectl label deploy <deployment> key=value         # label the deployment
+kubectl scale --replicas=x deploy <deployment>      # Scale up/down deployment
+kubectl expose deploy <deploy> --port=<external> --target-port=<internal> # expose deployment as service & assign port on the cluster
+kubectl delete deploy <deployment>                  # delete deployment & pod under it
+
+kubectl rollout history deploy <deployname>      # check the revisions of a Deployment
+kubectl rollout history deploy <deployname> --revision=2   # see the details of each revision
+kubectl rollout status deploy <deployname>       # get status of rollout 
+kubectl rollout undo deploy <deployname>         # rollback to the previous revision
+kubectl rollout undo deploy <deployname>  --revision=2     # rollback to a specific revision
+kubectl rollout pause deploy <deployname>        # pause a Deployment before triggering one or more updates
+kubectl rollout resume deploy <deployname>   
+
+##############################
+daemonset
+##############################
+
+create a manifest file with Kind ReplicaSet & use kubectl to create the object in k8s API Server.
+
+kubectl create -f ds-ex1.yml --record      # create daemonset
+kubectl apply -f ds-ex1.yml  --record      # update the daemonset 
+
+kubectl get ds                              # List all daemonsets in current active namespace
+kubectl get ds -n <namespace>               # List the daemonsets in <namespace>
+kubectl get ds --show-labels                # list the labels for daemonset
+kubectl get ds -l ds=myds -o wide    # list daemonset with matching labels
+kubectl get pods | grep myds               # list the pods associated with daemonset
+kubectl get ds myds -o yaml             # detailed object config
+
+kubectl describe ds <myds>                # inspect the daemonset
+kubectl label ds <myds> key=value         # label the daemonset
+kubectl expose ds <myds> --port=<external> --target-port=<internal> # expose rc as service & assign port on the cluster
+kubectl delete ds <myds>                  # delete daemonset & pod under it
+
+##################################
+Jobs
+######################################
+
+create a manifest file with Kind ReplicaSet & use kubectl to create the object in k8s API Server.
+
+kubectl create -f job-ex1.yml --record      # create job
+kubectl apply -f job-ex1.yml  --record      # update the job 
+
+kubectl get jobs                              # List all jobs in current active namespace
+kubectl get jobs -n <namespace>               # List the jobs in <namespace>
+kubectl get jobs --show-labels                # list the labels for job
+kubectl get jobs -o wide                      # list job with wider output
+kubectl get pods | grep myjob                  # list the pods associated with jobs
+kubectl get jobs myjob -o yaml                # detailed object config
+
+kubectl describe job <myjob>                # inspect the job
+kubectl label job <myjob> key=value         # label the job
+kubectl delete job <myjob>                  # delete job & pod under it
+
+######################################
+Cron Jobs
+#########################################
+create a manifest file with Kind ReplicaSet & use kubectl to create the object in k8s API Server.
+
+kubectl create -f cronjob-ex1.yml --record      # create cronjob
+kubectl apply -f cronjob-ex1.yml  --record      # update the cronjob 
+
+kubectl get cj                              # List all cronjob in current active namespace
+kubectl get cj -n <namespace>               # List the cronjob in <namespace>
+kubectl get cj --show-labels                # list the labels for cronjob
+kubectl get cj -o wide                      # list cronjob with wider output
+kubectl get cj | grep mycj                  # list the pods associated with cronjob
+kubectl get cj mycj -o yaml                # detailed object config
+
+kubectl describe cj <mycj>                # inspect the cronjob
+kubectl label cj <mycj> key=value         # label the cronjob
+kubectl delete cj <mycj>                  # delete cronjob & pod under it
