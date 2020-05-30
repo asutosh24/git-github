@@ -1,11 +1,22 @@
+gcloud container clusters get-credentials loopr-dev-cluster --region us-central1 --project=inviz-falcon-dev
+gcloud auth activate-service-account --key-file=/home/asutosh/Downloads/deployment-sa.json --project=inviz-falcon-dev
+======================================================================================================================
+
+
+helm search hub                                                    ## when creating charts always get under charts folder
+helm repo remove stable                                            ## helm install nginx --dry-run --debug      
+helm repo add stable https://kubernets-charts.googleapis.com       -----------------------------release name=chart.yaml
+helm repo list                                                     ## helm create nginx....by default it will give directory structure
+helm install rabbitmq stable/rabbitmq-ha                       ## and can change what u want accordingly
+helm uninstall rabbitmq -n databases
+=========================================================================================================================
+
+kubectl get apiService -n kube-system
 kubectl get all -n databases
 kubectl delete pods rabbitmq-rabbitmq-ha-0 -n databases
-kubectl port-forward svc/prometheus-operator-prometheus -n monitoring 6900:9090 
-gcloud container clusters get-credentials loopr-dev-cluster --region us-central1 --project=inviz-falcon-dev
- gcloud auth activate-service-account --key-file=/home/asutosh/Downloads/deployment-sa.json --project=inviz-falcon-dev
+kubectl port-forward svc/prometheus-operator-prometheus -n monitoring 6900:9090
 kubectl logs -f rabbitmq-rabbitmq-ha-0 -n databases -c rabbitmq-ha-exporter
 kubectl get svc -n databases
-helm uninstall rabbitmq -n databases
 kubectl get roles -n databases
 kubectl delete roles/rabbitmq-rabbitmq-ha -n databases
 kubectl get secrets -n databases
@@ -24,3 +35,35 @@ kubectl logs -f my-pod -c my-container
 kubectl exec my-pod -- ls /                         # Run command in existing pod (1 container case)
 kubectl exec my-pod -c my-container -- ls /         # Run command in existing pod (multi-container case)
 kubectl apply -f ./my-manifest.yaml 
+===========================================================================================================================
+docker images
+docker inspect image
+docker rmi <imageid>
+docker pull mongodb
+docker run mongodb
+docker exec -it <container name> /bin/bash                            ##ctrlp..........ctrlq
+docker run -itd <container name>
+docker run  -d -p 6000:6000 mongodb
+docker stop <container id>
+docker-compose-v
+docker compose up -d
+docker compose config
+
+============================================================================================================================
+git init
+git remote add origin
+git fetch
+git checkout master
+git checkout -b <branch>
+git add -A
+git commit -m " "
+git push
+git pull
+git push origin --delete b1 ##remote
+git branch -D b1  --delete from local
+.gitingnore
+stashing,cherrypicking,merging and rebashing will see
+docker rm <conatiner id>
+docker ps
+docker ps -a
+docker build -t devops/todo:v1 .
