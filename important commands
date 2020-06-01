@@ -9,6 +9,7 @@ helm repo add stable https://kubernets-charts.googleapis.com       -------------
 helm repo list                                                     ## helm create nginx....by default it will give directory structure
 helm install rabbitmq stable/rabbitmq-ha                       ## and can change what u want accordingly
 helm uninstall rabbitmq -n databases
+helm ls --all-namespaces
 =========================================================================================================================
 
 kubectl get apiService -n kube-system
@@ -27,7 +28,7 @@ kubectl delete configmap <configmap-name> -n <namespace-name>
 kubectl get pods -o wide
 kubectl describe nodes my-node
 kubectl describe pods my-pod
-kubectl scale --current-replicas=2 --replicas=3 deployment/mysql
+kubectl scale --replicas=3 deployment/mysql
 kubectl delete pod,service baz foo                                        # Delete pods and services with same names "baz" and                                                                                                                           "foo"
 kubectl delete pods,services -l name=myLabel
 kubectl logs -f my-pod                              # stream pod logs (stdout)
