@@ -17,9 +17,12 @@ kubectl get all -n databases
 kubectl delete pods rabbitmq-rabbitmq-ha-0 -n databases
 kubectl port-forward svc/prometheus-operator-prometheus -n monitoring 6900:9090
 kubectl logs -f rabbitmq-rabbitmq-ha-0 -n databases -c rabbitmq-ha-exporter
+kubectl logs -f kubedb-mongodb-0 -n databases -c mongodb
 kubectl get svc -n databases
 kubectl get roles -n databases
 kubectl delete roles/rabbitmq-rabbitmq-ha -n databases
+kubectl delete postgres.kubedb.com/kubedb-postgres -n databases
+kubectl edit postgres.kubedb.com/kubedb-postgres -n databases
 kubectl get secrets -n databases
 kubectl describe secrets/db-user-pass
 kubectl get secret mysecret -o yaml
