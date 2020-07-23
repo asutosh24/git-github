@@ -9,20 +9,24 @@ helm repo add stable https://kubernets-charts.googleapis.com       -------------
 helm repo list                                                     ## helm create nginx....by default it will give directory structure
 helm install rabbitmq stable/rabbitmq-ha                       ## and can change what u want accordingly
 helm uninstall rabbitmq -n databases
-helm ls --all-namespaces
+helm ls --all-namespaces or helm list with namespaces
+helm install inginx-demo --dry-run --debug inginx-demo
 =========================================================================================================================
-
+kubectl get all -n kubesystem
+kubectl get secrets -n databases
+kubectl get clusterRole 
 kubectl get apiService -n kube-system
+kubectl describe apiservice/custom.metrics.k8s.io/v1beta1
+kubectl get hpa -n management-tool
+kubectl get pods -n management-tool
+kubectl describe hpa -n management-tool
 kubectl get all -n databases
 kubectl delete pods rabbitmq-rabbitmq-ha-0 -n databases
 kubectl port-forward svc/prometheus-operator-prometheus -n monitoring 6900:9090
 kubectl logs -f rabbitmq-rabbitmq-ha-0 -n databases -c rabbitmq-ha-exporter
-kubectl logs -f kubedb-mongodb-0 -n databases -c mongodb
 kubectl get svc -n databases
 kubectl get roles -n databases
 kubectl delete roles/rabbitmq-rabbitmq-ha -n databases
-kubectl delete postgres.kubedb.com/kubedb-postgres -n databases
-kubectl edit postgres.kubedb.com/kubedb-postgres -n databases
 kubectl get secrets -n databases
 kubectl describe secrets/db-user-pass
 kubectl get secret mysecret -o yaml
@@ -38,8 +42,14 @@ kubectl logs -f my-pod                              # stream pod logs (stdout)
 kubectl logs -f my-pod -c my-container 
 kubectl exec my-pod -- ls /                         # Run command in existing pod (1 container case)
 kubectl exec my-pod -c my-container -- ls /         # Run command in existing pod (multi-container case)
-kubectl apply -f ./my-manifest.yaml 
-===========================================================================================================================
+kubectl apply -f ./my-manifest.yaml
+kubectl exec -t -i metricbeat-778bdbf97d-sv4ks bash -n monitoring
+kubectl get pods --all-namespaces
+kubectl top pods --all-namespaces
+kubectl top pod rabbitmq-rabbitmq-ha-2 --namespace=databases
+kubectl logs bfa-74d6f947b7-6w8pl -n management-tool
+kubectl edit pod/podname -n management-tool
+============================================================================================================================
 docker images
 docker inspect image
 docker rmi <imageid>
@@ -52,6 +62,88 @@ docker stop <container id>
 docker-compose-v
 docker compose up -d
 docker compose config
+docker ps
+docker ps -a
+docker build -t devops/todo:v1 .
+docker rm <conatiner id>
+
+============================================================================================================================
+git init
+git remote add origin
+git fetch
+git checkout master
+git checkout -b <branch>
+git add -A
+git commit -m " "
+git push
+git pullgcloud container clusters get-credentials loopr-dev-cluster --region us-central1 --project=inviz-falcon-dev
+gcloud auth activate-service-account --key-file=/home/asutosh/Downloads/deployment-sa.json --project=inviz-falcon-dev
+======================================================================================================================
+
+
+helm search hub                                                    ## when creating charts always get under charts folder
+helm repo remove stable                                            ## helm install nginx --dry-run --debug      
+helm repo add stable https://kubernets-charts.googleapis.com       -----------------------------release name=chart.yaml
+helm repo list                                                     ## helm create nginx....by default it will give directory structure
+helm install rabbitmq stable/rabbitmq-ha                       ## and can change what u want accordingly
+helm uninstall rabbitmq -n databases
+helm ls --all-namespaces or helm list with namespaces
+helm install inginx-demo --dry-run --debug inginx-demo
+=========================================================================================================================
+kubectl get all -n kubesystem
+kubectl get secrets -n databases
+kubectl get clusterRole 
+kubectl get apiService -n kube-system
+kubectl describe apiservice/custom.metrics.k8s.io/v1beta1
+kubectl get hpa -n management-tool
+kubectl get pods -n management-tool
+kubectl describe hpa -n management-tool
+kubectl get all -n databases
+kubectl delete pods rabbitmq-rabbitmq-ha-0 -n databases
+kubectl port-forward svc/prometheus-operator-prometheus -n monitoring 6900:9090
+kubectl logs -f rabbitmq-rabbitmq-ha-0 -n databases -c rabbitmq-ha-exporter
+kubectl get svc -n databases
+kubectl get roles -n databases
+kubectl delete roles/rabbitmq-rabbitmq-ha -n databases
+kubectl get secrets -n databases
+kubectl describe secrets/db-user-pass
+kubectl get secret mysecret -o yaml
+kubectl delete secret ssl-key-cert
+kubectl delete configmap <configmap-name> -n <namespace-name>
+kubectl get pods -o wide
+kubectl describe nodes my-node
+kubectl describe pods my-pod
+kubectl scale --replicas=3 deployment/mysql
+kubectl delete pod,service baz foo                                        # Delete pods and services with same names "baz" and                                                                                                                           "foo"
+kubectl delete pods,services -l name=myLabel
+kubectl logs -f my-pod                              # stream pod logs (stdout)
+kubectl logs -f my-pod -c my-container 
+kubectl exec my-pod -- ls /                         # Run command in existing pod (1 container case)
+kubectl exec my-pod -c my-container -- ls /         # Run command in existing pod (multi-container case)
+kubectl apply -f ./my-manifest.yaml
+kubectl exec -t -i metricbeat-778bdbf97d-sv4ks bash -n monitoring
+kubectl get pods --all-namespaces
+kubectl top pods --all-namespaces
+kubectl top pod rabbitmq-rabbitmq-ha-2 --namespace=databases
+kubectl logs bfa-74d6f947b7-6w8pl -n management-tool
+kubectl edit pod/podname -n management-tool
+============================================================================================================================
+docker images
+docker inspect image
+docker rmi <imageid>
+docker pull mongodb
+docker run mongodb
+docker exec -it <container name> /bin/bash                            ##ctrlp..........ctrlq
+docker run -itd <container name>
+docker run  -d -p 6000:6000 mongodb
+docker stop <container id>
+docker-compose-v
+docker compose up -d
+docker compose config
+docker ps
+docker ps -a
+docker build -t devops/todo:v1 .
+docker rm <conatiner id>
 
 ============================================================================================================================
 git init
@@ -65,9 +157,56 @@ git push
 git pull
 git push origin --delete b1 ##remote
 git branch -D b1  --delete from local
+git status
+git log
 .gitingnore
+
 stashing,cherrypicking,merging and rebashing will see
-docker rm <conatiner id>
-docker ps
-docker ps -a
-docker build -t devops/todo:v1 .
+
+Rebashing:
+git commiy -m ""
+git rebase -i origin/master                                  ##ctrl+o.....enter........ctrl+p
+git commit --ammend
+git push -f or git push origin template -f
+
+stashing:
+git stash
+git stash pop
+==========================harbor======================================================================================================
+
+helm repo add testing https://dev-harbor.loopr.ai/chartrepo/testing --username admin --password Harbor12345
+helm plugin install https://github.com/chartmuseum/helm-push
+helm push  --username admin --password Harbor12345 ./charts/loopr-server  testing
+----------------------------------------------------------------------------------------
+sudo docker login --username admin --password Harbor12345 dev-harbor.loopr.ai
+sudo docker tag nginx:alpine   dev-harbor.loopr.ai/test-repo/nginx:alpine
+sudo docker push dev-harbor.loopr.ai/test-repo/nginx:alpine
+==========================================================================================================================
+
+git push origin --delete b1 ##remote
+git branch -D b1  --delete from local
+git status
+git log
+.gitingnore
+
+stashing,cherrypicking,merging and rebashing will see
+
+Rebashing:
+git commiy -m ""
+git rebase -i origin/master                                  ##ctrl+o.....enter........ctrl+p
+git commit --ammend
+git push -f or git push origin template -f
+
+stashing:
+git stash
+git stash pop
+==========================harbor======================================================================================================
+
+helm repo add testing https://dev-harbor.loopr.ai/chartrepo/testing --username admin --password Harbor12345
+helm plugin install https://github.com/chartmuseum/helm-push
+helm push  --username admin --password Harbor12345 ./charts/loopr-server  testing
+----------------------------------------------------------------------------------------
+sudo docker login --username admin --password Harbor12345 dev-harbor.loopr.ai
+sudo docker tag nginx:alpine   dev-harbor.loopr.ai/test-repo/nginx:alpine
+sudo docker push dev-harbor.loopr.ai/test-repo/nginx:alpine
+==========================================================================================================================
